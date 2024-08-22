@@ -137,3 +137,31 @@ curl -X POST "http://127.0.0.1:5000/message?id_name=library.transactions.id&id_v
      -H "Content-Type: application/json" \
      -d '{"message": "My email should be john.newemail@example.com"}'
 ```
+
+## Security Analysis
+The following potential security risks have been identified and treated:
+
+1. SQL Injection:
+
+Risk: Malicious users could craft input to inject SQL commands.
+Mitigation: The code uses parameterized queries (:id_value, :related_id), which prevents SQL injection by separating data from the query logic.
+
+2. Unauthorized Table/Column Updates:
+
+Risk: A user could craft a message to update fields or tables not defined in the config.json relationships.
+Mitigation: The code strictly maps fields using the relationships defined in config.json. Only columns listed in the config.json are updated, and the mapping process prevents any fields outside this configuration from being included.
+
+3. Input Validation and Sanitization:
+
+Risk: Users might input unexpected or harmful data.
+Mitigation: The code validates input based on the field types defined in config.json. Although basic, this provides a layer of protection against improper data.
+
+4. OpenAI Response Integrity:
+
+Risk: The response from OpenAI might be manipulated or erroneous.
+Mitigation: The code checks the integrity of the JSON response. However, there’s an inherent trust in OpenAI’s output, so further validation might be required depending on the use case.
+
+5. Logging Sensitive Data:
+
+Risk: Sensitive data might be logged.
+Mitigation: Logs contain necessary information for debugging but do not log sensitive information like passwords or personal details. Sensitive fields should be redacted or avoided in logs.
