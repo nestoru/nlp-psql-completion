@@ -1,0 +1,52 @@
+{
+    "openai_api_key": "***",
+    "pguser": "***",
+    "pgpassword": "***",
+    "pghost": "***",
+    "pgport": "***",
+    "pgdatabase": "***",
+    "relationships": {
+        "library.transactions": {
+            "user_id": {
+                "ref": "library.users.id",
+                "fields": {
+                    "name": {
+                        "type": "text",
+                        "alias": "user name",
+                        "terms": ["user", "borrower"]
+                    },
+                    "email": {
+                        "type": "text",
+                        "alias": "user email",
+                        "terms": ["email"]
+                    }
+                }
+            },
+            "book_id": {
+                "ref": "library.books.id",
+                "fields": {
+                    "title": {
+                        "type": "text",
+                        "alias": "book title",
+                        "terms": ["book", "title"]
+                    },
+                    "author": {
+                        "type": "text",
+                        "alias": "book author",
+                        "terms": ["author"]
+                    }
+                }
+            },
+            "borrow_date": {
+                "type": "date",
+                "alias": "borrow date",
+                "terms": ["borrowed on"]
+            },
+            "return_date": {
+                "type": "date",
+                "alias": "return date",
+                "terms": ["returned on"]
+            }
+        }
+    }
+}
